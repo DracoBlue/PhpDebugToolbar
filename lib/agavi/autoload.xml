@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ae:configurations xmlns="http://agavi.org/agavi/config/parts/autoload/1.0"
+	xmlns:ae="http://agavi.org/agavi/config/global/envelope/1.0" xmlns:xi="http://www.w3.org/2001/XInclude"
+	parent="%core.system_config_dir%/autoload.xml">
+
+    <ae:configuration>
+
+        <!-- PhpDebugToolbar -->
+        <autoload name="PhpDebugToolbarLoggerAppender">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarLoggerAppender.class.php</autoload>
+        <autoload name="PhpDebugToolbarAgaviExecutionFilter">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarAgaviExecutionFilter.class.php</autoload>
+
+    </ae:configuration>
+    
+</ae:configurations>

@@ -1,0 +1,25 @@
+.php_debug_toolbar_button  {
+    float: left;
+	margin-left: 5px;
+    font-family:Helvetica,Arial,Sans-Serif;
+    font-size:13px;
+    padding:5px 10px;
+    text-decoration:none;
+    vertical-align:middle;
+}
+
+.php_debug_toolbar_button:hover {
+    cursor: pointer;
+}
+
+.php_debug_toolbar_navigation {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 20000;
+}
+
+.php_debug_toolbar_navigation ul {
+    position: relative;
+}
+
