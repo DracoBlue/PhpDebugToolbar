@@ -5,9 +5,9 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-Version: 1.0
+Version: 1.1
 
-Date: 2010/10/11
+Date: 2011/10/19
 
 Official site: <http://dracoblue.net>
 
@@ -25,6 +25,7 @@ Current features contain:
 * refreshs the log+actions+database popup as soon as the main page refreshs
 * shows whether an action was simple or not
 * theming can be done by using jquery ui css framework
+* remembers the position of the popups
 
 # TODO
 
@@ -154,6 +155,17 @@ feedback from:
 * Sven Kretschmann <development@sven-kretschmann.de>
 * Steffen Gransow, <steffen.gransow@mivesto.de>
 * Christian Krupa <christian@krupa.biz>
+
+# Changelog
+
+- 1.1 (2010/10/19)
+  - remember the position of the popups
+  - hiding the popup, even if closed with [x]
+  - using the default-state-active instead of default-state-focus
+  - merged action|time|memory into one button
+  - fixed issue with prepared statements in doctrine
+- 1.0 (2010/10/13)
+  - initial version
 
 # License
 
