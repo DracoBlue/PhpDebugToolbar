@@ -34,11 +34,6 @@ PhpDebugToolbar = function(container, options)
         }
     }
 
-    // console.log('logs', this.logs_count);
-    // console.log('total', this.total);
-
-    // console.log(data);
-
     this.dom_element = container;
 
     this.visible = false;
@@ -74,6 +69,8 @@ PhpDebugToolbar = function(container, options)
             this.show();
         }
     }
+    
+    this.initializePopupStateChecker();
 };
 
 PhpDebugToolbar.prototype.initializeLogsCountAndLevel = function()
@@ -228,29 +225,15 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
         }
     });
 
-    this.addNavigationNode('action', {
-        'title': 'Executed Action',
-        'html': this.encodeXml(this.sections[1].caption),
-        'onClick': function()
-        {
-            self.toggleActionsInfo(true);
-        }
-    });
-
+    var action_caption = this.encodeXml(this.sections[1].caption);
     var total_execution_time = self.getValueDifference(self.total, 'time');
-    this.addNavigationNode('time', {
-        'title': 'Execution time for for php',
-        'html': 'Time: ' + Math.floor(total_execution_time * 1000) + 'ms',
-        'onClick': function()
-        {
-            self.toggleActionsInfo(true);
-        }
-    });
-
+    action_caption = action_caption + ' | Time: ' + Math.floor(total_execution_time * 1000) + 'ms';    
     var total_execution_memory = self.getValueDifference(self.total, 'memory');
-    this.addNavigationNode('memory', {
-        'title': 'Memory usage at php',
-        'html': 'Mem: ' + Math.floor(total_execution_memory / 1000) + 'KB',
+    action_caption = action_caption + ' | Mem: ' + Math.floor(total_execution_memory / 1000) + 'KB';    
+    
+    this.addNavigationNode('action', {
+        'title': 'Executed Action, time and memory usage at php',
+        'html': action_caption,
         'onClick': function()
         {
             self.toggleActionsInfo(true);
@@ -313,8 +296,6 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
 
     ul.appendChild(this.navigation_nodes['warnings']);
     ul.appendChild(this.navigation_nodes['action']);
-    ul.appendChild(this.navigation_nodes['time']);
-    ul.appendChild(this.navigation_nodes['memory']);
     ul.appendChild(this.navigation_nodes['database']);
     if (this.debugs_count !== 0)
     {
@@ -323,6 +304,70 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
 
     this.navigation.appendChild(ul);
 };
+
+PhpDebugToolbar.prototype.initializePopupStateChecker = function()
+{
+    var self = this;
+    
+    var store_position = function(key)
+    {
+        var x = self[key + '_window'].screenX;
+        var y = self[key + '_window'].screenY;
+        
+        if (self[key + '_pos'])
+        {
+            if (self[key + '_pos'].x != x || self[key + '_pos'].y != y)
+            {
+                self.setOption(key + '_pos', x + 'x' + y);
+            }
+        } else {
+            self[key + '_pos'] = {};
+        }
+    
+        self[key + '_pos'].x = x;
+        self[key + '_pos'].y = y;
+    };
+    
+    setInterval(function() {
+        if (self.actions_window && self.actions_visible)
+        {
+            if (self.actions_window.closed)
+            {
+                self.actions_window = null;
+                self.toggleActionsInfo(false);
+            }
+            else
+            {
+                store_position('actions');
+            }
+        }
+        if (self.database_window && self.database_visible)
+        {
+            if (self.database_window.closed)
+            {
+                self.database_window = null;
+                self.toggleDatabaseInfo(false);
+            }
+            else
+            {
+                store_position('database');
+            }
+        }
+        
+        if (self.logs_window && self.logs_visible)
+        {
+            if (self.logs_window.closed)
+            {
+                self.logs_window = null;
+                self.toggleLogsInfo(false);
+            }
+            else
+            {
+                store_position('logs');
+            }
+        }
+    }, 1000);
+}
 
 PhpDebugToolbar.prototype.show = function()
 {
@@ -402,17 +447,13 @@ PhpDebugToolbar.prototype.toggleActionsInfo = function(focus)
     {
         this.hideActionsInfo();
         this.unsetOption('actions');
-        this.removeClass(this.navigation_nodes['memory'], 'ui-state-focus');
-        this.removeClass(this.navigation_nodes['action'], 'ui-state-focus');
-        this.removeClass(this.navigation_nodes['time'], 'ui-state-focus');
+        this.removeClass(this.navigation_nodes['action'], 'ui-state-active');
     }
     else
     {
         this.setOption('actions', true);
         this.actions_visible = true;
-        this.addClass(this.navigation_nodes['memory'], 'ui-state-focus');
-        this.addClass(this.navigation_nodes['action'], 'ui-state-focus');
-        this.addClass(this.navigation_nodes['time'], 'ui-state-focus');
+        this.addClass(this.navigation_nodes['action'], 'ui-state-active');
         this.actions_window = this.refreshInfoWindow('actions', 'Actions (Time & Memory)', this.getActionsInfoHtml());
         if (focus)
         {
@@ -426,6 +467,7 @@ PhpDebugToolbar.prototype.hideActionsInfo = function()
     if (this.actions_window)
     {
         this.actions_window.close();
+        this.actions_window = null;
     }
 };
 
@@ -521,15 +563,15 @@ PhpDebugToolbar.prototype.toggleLogsInfo = function(focus)
     {
         this.hideLogsInfo();
         this.unsetOption('logs');
-        this.removeClass(this.navigation_nodes['logs'], 'ui-state-focus');
-        this.removeClass(this.navigation_nodes['warnings'], 'ui-state-focus');
+        this.removeClass(this.navigation_nodes['logs'], 'ui-state-active');
+        this.removeClass(this.navigation_nodes['warnings'], 'ui-state-active');
     }
     else
     {
         this.logs_visible = true;
         this.setOption('logs', true);
-        this.addClass(this.navigation_nodes['logs'], 'ui-state-focus');
-        this.addClass(this.navigation_nodes['warnings'], 'ui-state-focus');
+        this.addClass(this.navigation_nodes['logs'], 'ui-state-active');
+        this.addClass(this.navigation_nodes['warnings'], 'ui-state-active');
         this.logs_window = this.refreshInfoWindow('logs', 'Logs', this.getLogsInfoHtml());
         if (focus)
         {
@@ -544,6 +586,7 @@ PhpDebugToolbar.prototype.hideLogsInfo = function()
     if (this.logs_window)
     {
         this.logs_window.close();
+        this.logs_window = null;
     }
 };
 
@@ -602,13 +645,13 @@ PhpDebugToolbar.prototype.toggleDatabaseInfo = function(focus)
     {
         this.hideDatabaseInfo();
         this.unsetOption('database');
-        this.removeClass(this.navigation_nodes['database'], 'ui-state-focus');
+        this.removeClass(this.navigation_nodes['database'], 'ui-state-active');
     }
     else
     {
         this.database_visible = true;
         this.setOption('database', true);
-        this.addClass(this.navigation_nodes['database'], 'ui-state-focus');
+        this.addClass(this.navigation_nodes['database'], 'ui-state-active');
         this.database_window = this.refreshInfoWindow('database', 'Database', this.getDatabaseInfoHtml());
         if (focus)
         {
@@ -623,6 +666,7 @@ PhpDebugToolbar.prototype.hideDatabaseInfo = function()
     if (this.database_window)
     {
         this.database_window.close();
+        this.database_window = null;
     }
 };
 
@@ -771,5 +815,13 @@ PhpDebugToolbar.prototype.refreshInfoWindow = function(key, title, html)
         'content = document.createElement("div");', 'content.id="content";', 'content.innerHTML = ' + JSON.encode(html) + ';',
         'document.body.appendChild(content);', '<' + '/script>'
     ].join("\n"));
+    
+    if (this.getOption(key + '_pos'))
+    {
+        var coords = this.getOption(key + '_pos').split('x');
+        detail.screenX = coords[0];
+        detail.screenY = coords[1];
+    }
+    
     return detail;
 };
