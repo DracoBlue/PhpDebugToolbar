@@ -19,11 +19,15 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
     {
         $query_group = $event->getQuery();
         $query_string = $query_group;
-        foreach ($event->getParams() as $value) {
-            /*
-             * Just replace the first ?, not all!
-             */
-            $query_string = preg_replace('/\?/', $value, $query_string, 1);
+        $params = $event->getParams();
+
+        if ($params) {
+            foreach ($params as $value) {
+                /*
+                 * Just replace the first ?, not all!
+                 */
+                $query_string = preg_replace('/\?/', $value, $query_string, 1);
+            }
         }
 
         $backtrace = array_slice(debug_backtrace(false), 4);
