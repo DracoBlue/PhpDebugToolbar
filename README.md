@@ -5,11 +5,10 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-Version: 1.1.1
-
-Date: 2011/10/21
-
-Official site: <http://dracoblue.net>
+- Version: 1.1.1
+- Date: 2011/10/21
+- Screenshot: <http://twitpic.com/2zgig8>
+- Official site: <http://dracoblue.net>
 
 # Features
 
