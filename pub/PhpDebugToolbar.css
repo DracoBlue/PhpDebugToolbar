@@ -23,3 +23,7 @@
     position: relative;
 }
 
+.php_debug_toolbar_navigation li {
+    list-style-type: none;
+}
+
