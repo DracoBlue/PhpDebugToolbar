@@ -414,7 +414,8 @@ class PhpDebugToolbarAgaviExecutionFilter extends AgaviExecutionFilter implement
         {
             $response = $container->getResponse();
             $output = $response->getContent();
-            $output = str_replace('</body>', PhpDebugToolbar::render() .'</body>', $output);
+            $output = str_replace('</head>', PhpDebugToolbar::renderHead() .'</head>', $output);
+            $output = str_replace('</body>', PhpDebugToolbar::renderBody() .'</body>', $output);
             $response->setContent($output);
         }
     }

@@ -193,7 +193,7 @@ abstract class PhpDebugToolbar
         ));
     }
 
-    static function render()
+    static function renderHead()
     {
         if (self::$current_section_id !== 0)
         {
@@ -201,7 +201,6 @@ abstract class PhpDebugToolbar
         }
 
         $content = array();
-        $content[] = '<div id="php_debug_toolbar"> </div>';
         $content[] = '<link rel="stylesheet" href="' . self::$options['ui_css_location'] . '" type="text/css" />';
         
         if (isset(self::$options['css_location']))
@@ -214,21 +213,32 @@ abstract class PhpDebugToolbar
             $content[] = file_get_contents(dirname(__FILE__) . '/pub/PhpDebugToolbar.css');
             $content[] = '</style>';
         }
+        return implode(PHP_EOL, $content);
+    }
+
+    static function renderBody()
+    {
+        if (self::$current_section_id !== 0)
+        {
+            throw new Exception('The sections: #' . implode(', #', self::$section_id_stack) . ' are still open. finish them first!');
+        }
+
+        $content = array();
+        $content[] = '<div id="php_debug_toolbar"> </div>';
+        
         if (isset(self::$options['js_location']))
         {
             $content[] = '<script src="' . self::$options['js_location'] . '" type="text/javascript" charset="utf-8"> </script>';
+            $content[] = '<script type="text/javascript">';
+            $content[] = '// <!--';
         }
         else
         {
             $content[] = '<script type="text/javascript">';
             $content[] = '// <!--';
             $content[] = file_get_contents(dirname(__FILE__) . '/pub/PhpDebugToolbar.js');
-            $content[] = '// -->';
-            $content[] = '</script>';
         }
 
-        $content[] = '<script type="text/javascript">';
-        $content[] = '// <!--';
         $content[] = 'new PhpDebugToolbar(document.getElementById("php_debug_toolbar"), ';
         $content[] =    json_encode(array(
             'sections' => self::getSections(),
