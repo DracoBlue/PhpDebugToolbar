@@ -149,7 +149,7 @@ PhpDebugToolbar.prototype.setOption = function(key, value)
         return;
     }
     options[key] = value;
-    document.cookie = this.cookie_name + '=' + encodeURIComponent(JSON.encode(options)) + '; expires=0; path=/';
+    document.cookie = this.cookie_name + '=' + encodeURIComponent(JSON.stringify(options)) + '; expires=0; path=/';
 };
 
 PhpDebugToolbar.prototype.unsetOption = function(key)
@@ -160,7 +160,7 @@ PhpDebugToolbar.prototype.unsetOption = function(key)
         return;
     }
     delete options[key];
-    document.cookie = this.cookie_name + '=' + encodeURIComponent(JSON.encode(options)) + '; expires=0; path=/';
+    document.cookie = this.cookie_name + '=' + encodeURIComponent(JSON.stringify(options)) + '; expires=0; path=/';
 };
 
 PhpDebugToolbar.prototype.getOptions = function(key)
@@ -170,7 +170,7 @@ PhpDebugToolbar.prototype.getOptions = function(key)
     {
         return {};
     }
-    return JSON.decode(decodeURIComponent(match[1]));
+    return JSON.parse(decodeURIComponent(match[1]));
 };
 
 PhpDebugToolbar.prototype.addNavigationNode = function(name, options)
@@ -810,9 +810,9 @@ PhpDebugToolbar.prototype.refreshInfoWindow = function(key, title, html)
     detail.document.write( [
         '<script type="text/javascript">',
         'if (!document.body) {document.write("<html><head><title></title></head><' + 'body></' + 'body></html>"); }',
-        'document.getElementsByTagName("title")[0].innerHTML = ' + JSON.encode(title) + ';',
+        'document.getElementsByTagName("title")[0].innerHTML = ' + JSON.stringify(title) + ';',
         'var content = document.getElementById("content");', 'if (content) {', '    document.body.removeChild(content);', '}',
-        'content = document.createElement("div");', 'content.id="content";', 'content.innerHTML = ' + JSON.encode(html) + ';',
+        'content = document.createElement("div");', 'content.id="content";', 'content.innerHTML = ' + JSON.stringify(html) + ';',
         'document.body.appendChild(content);', '<' + '/script>'
     ].join("\n"));
     
