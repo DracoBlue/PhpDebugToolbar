@@ -5,9 +5,9 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-Version: 1.1
+Version: 1.1.1
 
-Date: 2011/10/19
+Date: 2011/10/21
 
 Official site: <http://dracoblue.net>
 
@@ -158,6 +158,10 @@ feedback from:
 
 # Changelog
 
+- 1.1.1 (2010/10/21)
+  - removed dependency to JSON.encode/decode, using JSON.stringify/parse now
+  - fixed list style, in case of usage without a reset stylesheet
+  - link+style tags are injected into the head, html validation passes now
 - 1.1 (2010/10/19)
   - remember the position of the popups
   - hiding the popup, even if closed with [x]
