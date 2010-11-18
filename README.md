@@ -6,7 +6,7 @@ profiling information, which is necessary to find bottlenecks in the
 application.
 
 - Version: 1.2.0
-- Date: 2011/11/18
+- Date: 2010/11/18
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
