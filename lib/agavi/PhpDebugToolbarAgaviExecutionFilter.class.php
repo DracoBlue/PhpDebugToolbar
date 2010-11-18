@@ -226,6 +226,10 @@ class PhpDebugToolbarAgaviExecutionFilter extends AgaviExecutionFilter implement
                             'view_module' => $actionCache['view_module'],
                             'view_name' => $actionCache['view_name'],
                         );
+                        
+                        // PhpDebugToolbar additions:
+                        PhpDebugToolbar::finishSection($php_debug_toolbar_section_id);
+                        
                         continue;
                     }
                 
