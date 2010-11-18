@@ -5,7 +5,7 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.1.2
+- Version: 1.2.0
 - Date: 2011/11/18
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
@@ -25,6 +25,7 @@ Current features contain:
 * shows whether an action was simple or not
 * theming can be done by using jquery ui css framework
 * remembers the position of the popups
+* has support for doctrine and propel queries
 
 # TODO
 
@@ -107,8 +108,8 @@ from external resources (for performance reasons!).
 Just configure:
 
     PhpDebugToolbar::start(array(
-        'js_location' => '../libs/PhpDebugToolbar/PhpDebugToolbar.js',
-        'css_location' => '../libs/PhpDebugToolbar/PhpDebugToolbar.css'
+        'js_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.js',
+        'css_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.css'
     ));
 
 and PhpDebugToolbar will include <script-tags instead.
@@ -158,7 +159,7 @@ feedback from:
 
 # Changelog
 
-- 1.2
+- 1.2.0
   - added propel database extension
 - 1.1.2 (2010/11/18)
   - fixed execution filter when cached actions get re-run
@@ -166,13 +167,13 @@ feedback from:
   - removed dependency to JSON.encode/decode, using JSON.stringify/parse now
   - fixed list style, in case of usage without a reset stylesheet
   - link+style tags are injected into the head, html validation passes now
-- 1.1 (2010/10/19)
+- 1.1.0 (2010/10/19)
   - remember the position of the popups
   - hiding the popup, even if closed with [x]
   - using the default-state-active instead of default-state-focus
   - merged action|time|memory into one button
   - fixed issue with prepared statements in doctrine
-- 1.0 (2010/10/13)
+- 1.0.0 (2010/10/13)
   - initial version
 
 # License
