@@ -158,6 +158,8 @@ feedback from:
 
 # Changelog
 
+- 1.2
+  - added propel database extension
 - 1.1.2 (2010/11/18)
   - fixed execution filter when cached actions get re-run
 - 1.1.1 (2010/10/21)
