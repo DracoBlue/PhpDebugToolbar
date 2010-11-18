@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.1.1
-- Date: 2011/10/21
+- Version: 1.1.2
+- Date: 2011/11/18
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -154,9 +154,12 @@ feedback from:
 * Sven Kretschmann <development@sven-kretschmann.de>
 * Steffen Gransow, <steffen.gransow@mivesto.de>
 * Christian Krupa <christian@krupa.biz>
+* Tim Taubert <tim.taubert@digitale-enthusiasten.de>
 
 # Changelog
 
+- 1.1.2 (2010/11/18)
+  - fixed execution filter when cached actions get re-run
 - 1.1.1 (2010/10/21)
   - removed dependency to JSON.encode/decode, using JSON.stringify/parse now
   - fixed list style, in case of usage without a reset stylesheet
