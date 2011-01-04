@@ -17,7 +17,7 @@ abstract class PhpDebugToolbar
         'extensions' => array(),
         'log_strict_errors' => true,
         'log_deprecated_errors' => true,
-        'ui_css_location' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/cupertino/jquery-ui.css',
+        'ui_css_location' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/cupertino/jquery-ui.css',
         'cookie' => 'php_debug_toolbar'
     );
 
