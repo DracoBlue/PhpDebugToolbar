@@ -4,13 +4,8 @@ require_once(dirname(__FILE__) . '/PhpDebugToolbarPropelStatement.class.php');
 
 class PhpDebugToolbarPropelConnection extends DebugPDO
 {
-    public function __construct($dsn, $username = null, $password = null, $driver_options = array())
-    {
-        parent::__construct($dsn, $username, $password, $driver_options);
-        
-        $this->configureStatementClass('PhpDebugToolbarPropelStatement', $suppress = true);
-    }
-    
+    protected $statementClass = 'PhpDebugToolbarPropelStatement';
+
     public function exec($sql)
     {
         $start_time = microtime(true);
