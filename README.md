@@ -166,6 +166,7 @@ feedback from:
   - added rows, affected_rows, time and memory for db queries in
     propel
   - added rows, time and memory for doctrine statements
+  - added # if query is executed multiple times
 - 1.2.0 (2010/11/18)
   - added propel database extension
 - 1.1.2 (2010/11/18)

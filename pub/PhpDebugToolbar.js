@@ -814,7 +814,12 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
                 {
                     var stack_entry = query_stack[sq];
 
-                    full_content = full_content + '<li>' + encodeXml(stack_entry['class'] + stack_entry['type']);
+                    full_content = full_content + '<li>';
+                    if (sq === 0 && query_stacks.length > 1)
+                    {
+                        full_content = full_content + '<strong>#' + (s+1) +'</strong> ';
+                    }
+                    full_content = full_content + encodeXml(stack_entry['class'] + stack_entry['type']);
                     full_content = full_content + encodeXml(stack_entry['function']) + '<span class="location">';
                     full_content = full_content + encodeXml(stack_entry['file'] + ':' + stack_entry['line']);
                     full_content = full_content + '</span></li>';
