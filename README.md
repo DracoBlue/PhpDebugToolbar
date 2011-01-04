@@ -161,6 +161,7 @@ feedback from:
 
 - 1.3-dev
   - fixed issue with already initialized propel connection
+  - fixed that sometimes loading the database query tab crashed
 - 1.2.0 (2010/11/18)
   - added propel database extension
 - 1.1.2 (2010/11/18)

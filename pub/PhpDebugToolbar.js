@@ -777,9 +777,9 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
                 var query_stack = query_stacks[s];
                 var query_stack_length = query_stack.length;
                 full_content = full_content + '<li><ul>';
-                for ( var s = 0; s < query_stack_length; s++)
+                for ( var sq = 0; sq < query_stack_length; sq++)
                 {
-                    var stack_entry = query_stack[s];
+                    var stack_entry = query_stack[sq];
 
                     full_content = full_content + '<li>' + encodeXml(stack_entry['class'] + stack_entry['type']);
                     full_content = full_content + encodeXml(stack_entry['function']) + '<span class="location">';
