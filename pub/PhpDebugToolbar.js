@@ -697,6 +697,9 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
 
     content.push('<table style="width: 100%">');
     content.push('<tr><th class="ui-widget-header">Query</th>');
+    content.push('<th style="width:10px" class="ui-widget-header">Rows</th>');
+    content.push('<th style="width:10px" class="ui-widget-header">Memory</th>');
+    content.push('<th style="width:10px" class="ui-widget-header">Time</th>');
     content.push('<th style="width:10px" class="ui-widget-header">Count</th>');
     content.push('</tr>');
 
@@ -718,12 +721,15 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
                     queries_group_map[query.group] = query_groups.length;
                     var query_entries = {};
                     query_entries[query.sql] = {
+                        "time": query.time,
+                        "memory": query.memory,
+                        "rows": query.rows,
                         "stacks": [
                             query.stack
                         ]
                     };
                     query_groups.push( [
-                        query.group, query_entries, 1
+                        query.group, query_entries, 1, query.time, query.rows, query.memory
                     ]);
                 }
                 else
@@ -732,6 +738,9 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
                     if (typeof query_groups[query_group_id][1][query.sql] === 'undefined')
                     {
                         query_groups[query_group_id][1][query.sql] = {
+                            "time": query.time,
+                            "rows": query.rows,
+                            "memory": query.memory,
                             "stacks": [
                                 query.stack
                             ]
@@ -740,9 +749,15 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
                     else
                     {
                         query_groups[query_group_id][1][query.sql].stacks.push(query.stack);
+                        query_groups[query_group_id][1][query.sql].time += query.time;
+                        query_groups[query_group_id][1][query.sql].rows += query.rows;
+                        query_groups[query_group_id][1][query.sql].memory += query.memory;
                     }
 
                     query_groups[query_group_id][2]++;
+                    query_groups[query_group_id][3] += query.time;
+                    query_groups[query_group_id][4] += query.rows;
+                    query_groups[query_group_id][5] += query.memory;
                 }
             }
         }
@@ -755,6 +770,9 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
         var query_group_name = query_groups[qg][0];
         var queries = query_groups[qg][1];
         var queries_count = query_groups[qg][2];
+        var queries_time = query_groups[qg][3];
+        var queries_rows = query_groups[qg][4];
+        var queries_memory = query_groups[qg][5];
         var queries_length = queries.length;
 
         content.push('<tr>');
@@ -797,6 +815,9 @@ PhpDebugToolbar.prototype.getDatabaseInfoHtml = function()
         content.push(encodeXml(query_group_name.substr(0, 80) + (query_group_name.length > 80 ? '...' : '')));
         content.push('</div><div class="full">' + full_content + '</div>');
         content.push('</td>');
+        content.push('<td>' + encodeXml(queries_rows ? queries_rows : '') + '</td>');
+        content.push('<td>' + encodeXml(Math.floor(queries_memory/1000) ? Math.floor(queries_memory / 1000) + 'KB' : '') + '</td>');
+        content.push('<td>' + encodeXml(Math.floor(queries_time * 100000) / 100) + 'ms</td>');
         content.push('<td>' + encodeXml(queries_count) + '</td>');
         content.push('</tr>');
     }

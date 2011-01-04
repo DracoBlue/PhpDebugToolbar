@@ -162,6 +162,7 @@ feedback from:
 - 1.3-dev
   - fixed issue with already initialized propel connection
   - fixed that sometimes loading the database query tab crashed
+  - display rows, time and memory in database tab
   - added rows, affected_rows, time and memory for db queries in
     propel
   - added rows, time and memory for doctrine statements
