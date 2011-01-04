@@ -26,13 +26,28 @@ PhpDebugToolbar = function(container, options)
             this.total[key] = sections[0][key];
         }
     }
-    for ( var key in sections[sections.length - 1])
+        
+    var last_section_id_without_parent = -1;
+    var sections_length = sections.length;
+    for (var i = 0; i < sections_length; i++)
     {
-        if (key.match(/^end_/))
+        if (!sections[i].parent)
         {
-            this.total[key] = sections[sections.length - 1][key];
+            last_section_id_without_parent = i;
         }
     }
+
+    if (last_sectionid_without_parent > -1)
+    {
+        for ( var key in sections[last_section_id_without_parent])
+        {
+            if (key.match(/^end_/))
+            {
+                this.total[key] = sections[last_section_id_without_parent][key];
+            }
+        }
+    }
+    
 
     this.dom_element = container;
 
