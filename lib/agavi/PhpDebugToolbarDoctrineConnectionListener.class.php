@@ -8,18 +8,7 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
 
     protected $last_exec_info = array();
 
-    public function preExec(Doctrine_Event $event)
-    {
-        $this->last_exec_start_time = microtime(true);
-    }
-
-    public function postExec(Doctrine_Event $event)
-    {
-        DoctrineDatabaseToolbarExtension::$count++;
-        DoctrineDatabaseToolbarExtension::$time += (microtime(true) - $this->last_exec_start_time);
-    }
-
-    public function preStmtExecute(Doctrine_Event $event)
+    protected function storeLastExecInfoForEvent(Doctrine_Event $event)
     {
         $query_group = $event->getQuery();
         $query_string = $query_group;
@@ -34,7 +23,7 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
             }
         }
 
-        $backtrace = array_slice(debug_backtrace(false), 4);
+        $backtrace = array_slice(debug_backtrace(false), 5);
         foreach ($backtrace as $k => $v)
         {
             unset($backtrace[$k]['args']);
@@ -46,10 +35,10 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
             'group' => $query_group
         );
         $this->last_exec_start_time = microtime(true);
-        $this->last_exec_start_memory = memory_get_usage();
+        $this->last_exec_start_memory = memory_get_usage();       
     }
 
-    public function postStmtExecute(Doctrine_Event $event)
+    protected function appendValueForLastExecInfo()
     {
         $memory = (memory_get_usage() - $this->last_exec_start_memory);
         $this->last_exec_info['memory'] = $memory;
@@ -59,16 +48,34 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
         DoctrineDatabaseToolbarExtension::$count++;
         DoctrineDatabaseToolbarExtension::$time += $time;
     }
+
+    public function preExec(Doctrine_Event $event)
+    {
+        $this->storeLastExecInfoForEvent($event);
+    }
+
+    public function postExec(Doctrine_Event $event)
+    {
+        $this->appendValueForLastExecInfo();
+    }
+
+    public function preStmtExecute(Doctrine_Event $event)
+    {
+        $this->storeLastExecInfoForEvent($event);
+    }
+
+    public function postStmtExecute(Doctrine_Event $event)
+    {
+        $this->appendValueForLastExecInfo();
+    }
  
     public function preQuery(Doctrine_Event $event)
     {
-        $this->last_exec_start_time = microtime(true);
+        $this->storeLastExecInfoForEvent($event);
     }
 
     public function postQuery(Doctrine_Event $event)
     {
-        DoctrineDatabaseToolbarExtension::$count++;
-        $time = (microtime(true) - $this->last_exec_start_time);
-        DoctrineDatabaseToolbarExtension::$time += $time;
+        $this->appendValueForLastExecInfo();
     }
 }
