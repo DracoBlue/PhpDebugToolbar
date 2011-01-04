@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.3-dev
-- Date: 2010/11/18
+- Version: 1.3.0
+- Date: 2011/12/04
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -15,7 +15,7 @@ application.
 Current features contain:
 
 * show a toolbar with memory usage, database usage and logging information
-* doctrine database queries and query groups + count
+* doctrine/propel database queries and query groups + count + time + memory
 * show sections (action+view) + db, memory usage and consumed time.
 * logging window with warning, error and debug messages
 * logging shows warnings and notices raised by php
@@ -25,7 +25,6 @@ Current features contain:
 * shows whether an action was simple or not
 * theming can be done by using jquery ui css framework
 * remembers the position of the popups
-* has support for doctrine and propel queries
 
 # TODO
 
@@ -159,7 +158,7 @@ feedback from:
 
 # Changelog
 
-- 1.3-dev
+- 1.3.0 (2011/01/04)
   - fixed issue with already initialized propel connection
   - fixed that sometimes loading the database query tab crashed
   - fixed that sometimes the overall db/memory/time sum was incorrect
