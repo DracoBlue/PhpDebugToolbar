@@ -37,7 +37,7 @@ PhpDebugToolbar = function(container, options)
         }
     }
 
-    if (last_sectionid_without_parent > -1)
+    if (last_section_id_without_parent > -1)
     {
         for ( var key in sections[last_section_id_without_parent])
         {
