@@ -164,6 +164,7 @@ feedback from:
   - fixed that sometimes loading the database query tab crashed
   - added rows, affected_rows, time and memory for db queries in
     propel
+  - added rows, time and memory for doctrine statements
 - 1.2.0 (2010/11/18)
   - added propel database extension
 - 1.1.2 (2010/11/18)

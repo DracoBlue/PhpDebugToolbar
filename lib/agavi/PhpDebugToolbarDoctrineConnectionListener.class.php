@@ -4,6 +4,10 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
    
     protected $last_exec_start_time = null;
 
+    protected $last_exec_start_memory = null;
+
+    protected $last_exec_info = array();
+
     public function preExec(Doctrine_Event $event)
     {
         $this->last_exec_start_time = microtime(true);
@@ -36,18 +40,24 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
             unset($backtrace[$k]['args']);
             unset($backtrace[$k]['object']);
         }
-        $this->last_exec_start_time = microtime(true);
-        PhpDebugToolbar::appendValue('database_queries', array(
+        $this->last_exec_info = array(
             'sql' => $query_string,
             'stack' => $backtrace,
             'group' => $query_group
-        ));
+        );
+        $this->last_exec_start_time = microtime(true);
+        $this->last_exec_start_memory = memory_get_usage();
     }
 
     public function postStmtExecute(Doctrine_Event $event)
     {
+        $memory = (memory_get_usage() - $this->last_exec_start_memory);
+        $this->last_exec_info['memory'] = $memory;
+        $time = (microtime(true) - $this->last_exec_start_time);
+        $this->last_exec_info['time'] = $time;
+        PhpDebugToolbar::appendValue('database_queries', $this->last_exec_info);
         DoctrineDatabaseToolbarExtension::$count++;
-        DoctrineDatabaseToolbarExtension::$time += (microtime(true) - $this->last_exec_start_time);
+        DoctrineDatabaseToolbarExtension::$time += $time;
     }
  
     public function preQuery(Doctrine_Event $event)
@@ -58,6 +68,7 @@ class PhpDebugToolbarDoctrineConnectionListener extends Doctrine_EventListener {
     public function postQuery(Doctrine_Event $event)
     {
         DoctrineDatabaseToolbarExtension::$count++;
-        DoctrineDatabaseToolbarExtension::$time += (microtime(true) - $this->last_exec_start_time);
+        $time = (microtime(true) - $this->last_exec_start_time);
+        DoctrineDatabaseToolbarExtension::$time += $time;
     }
 }
