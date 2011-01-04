@@ -22,17 +22,24 @@ class PropelDatabaseToolbarExtension
         {
             $config = Propel::getConfiguration(PropelConfiguration::TYPE_ARRAY);
             
-            foreach ($config['datasources'] as &$datasource)
+            require_once(dirname(__FILE__) . '/../lib/agavi/PhpDebugToolbarPropelConnection.class.php');
+
+            foreach ($config['datasources'] as $name => &$datasource)
             {
                 if (is_array($datasource))
                 {
                     $datasource['connection']['classname'] = 'PhpDebugToolbarPropelConnection';
                 }
             }
-            
+
             Propel::setConfiguration($config);
-            
-            require_once(dirname(__FILE__) . '/../lib/agavi/PhpDebugToolbarPropelConnection.class.php');
+            /*
+             * Closing the connection once: will force reinitializing the
+             * connection when getDatabaseConnection is called again. That's
+             * the only way to "inject" the PhpDebugToolbarPropelConnection
+             * for sure.
+             */
+            Propel::close();
         }
         else
         {
