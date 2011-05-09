@@ -66,7 +66,7 @@ PhpDebugToolbar.prototype.showRequest = function(request_id)
     this.name = this.requests[request_id].name || null;
     if (this.navigation)
     {
-        this.navigation.dispose();
+        this.navigation.parentNode.removeChild(this.navigation);
     }
     this.navigation = null;
 
