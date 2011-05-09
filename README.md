@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.3.0
-- Date: 2011/12/04
+- Version: 1.4-dev
+- Date: 2011/05/09
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -31,6 +31,7 @@ Current features contain:
 * add information about fragement cache
 * highlight slots on mouseover
 * expand/collapse sections
+* add ajax request support
 
 # Installation
 

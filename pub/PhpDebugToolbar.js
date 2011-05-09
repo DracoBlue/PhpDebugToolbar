@@ -8,12 +8,69 @@
 PhpDebugToolbar = function(container, options)
 {
     var self = this;
+    
+    PhpDebugToolbar.instance = this;
 
-    this.sections = options.sections;
-    var sections = this.sections;
+    this.requests = [];
 
     this.ui_css_location = options.ui_css_location;
     this.cookie_name = options.cookie;
+    
+    this.requests.push({"sections": options.sections});
+    
+    this.dom_element = container;
+
+    this.visible = false;
+    this.database_visible = false;
+
+    this.navigation = null;
+
+    this.showRequest(0);
+    
+    this.toggle_button = document.createElement('span');
+    this.toggle_button.innerHTML = 'PhpDebugToolbar [show]';
+    this.toggle_button.setAttribute('style', 'position:fixed; bottom: 40px; right: 20px; z-index: 20000;');
+    this.toggle_button.onclick = function()
+    {
+        if (self.visible)
+        {
+            self.hide();
+        }
+        else
+        {
+            self.show();
+        }
+    };
+
+    this.dom_element.appendChild(this.toggle_button);
+    
+    if (this.getOption('visible'))
+    {
+        this.show();
+    }
+    else
+    {
+        if (typeof this.getOption('visible') === 'undefined')
+        {
+            this.show();
+        }
+    }
+
+    this.initializePopupStateChecker();
+};
+
+PhpDebugToolbar.prototype.showRequest = function(request_id)
+{
+    var self = this;
+    this.sections = this.requests[request_id].sections;
+    this.name = this.requests[request_id].name || null;
+    if (this.navigation)
+    {
+        this.navigation.dispose();
+    }
+    this.navigation = null;
+
+    var sections = this.sections;
 
     this.initializeLogsCountAndLevel();
 
@@ -48,44 +105,16 @@ PhpDebugToolbar = function(container, options)
         }
     }
     
-
-    this.dom_element = container;
-
-    this.visible = false;
-    this.database_visible = false;
-
-    this.toggle_button = document.createElement('span');
-    this.toggle_button.innerHTML = 'PhpDebugToolbar [show]';
-    this.toggle_button.setAttribute('style', 'position:fixed; bottom: 40px; right: 20px; z-index: 20000;');
-    this.toggle_button.onclick = function()
-    {
-        if (self.visible)
-        {
-            self.hide();
-        }
-        else
-        {
-            self.show();
-        }
-    };
-
-    this.dom_element.appendChild(this.toggle_button);
-
-    this.navigation = null;
-
-    if (this.getOption('visible'))
+    if (this.visible)
     {
         this.show();
-    }
-    else
-    {
-        if (typeof this.getOption('visible') === 'undefined')
-        {
-            this.show();
-        }
-    }
-    
-    this.initializePopupStateChecker();
+    }    
+}
+
+PhpDebugToolbar.prototype.addRequest = function(values)
+{
+    this.requests.push(values);
+    this.showRequest(this.requests.length - 1);
 };
 
 PhpDebugToolbar.prototype.initializeLogsCountAndLevel = function()
@@ -240,7 +269,7 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
         }
     });
 
-    var action_caption = this.encodeXml(this.sections[1].caption);
+    var action_caption = this.encodeXml(this.name || this.sections[1].caption);
     var total_execution_time = self.getValueDifference(self.total, 'time');
     action_caption = action_caption + ' | Time: ' + Math.floor(total_execution_time * 1000) + 'ms';    
     var total_execution_memory = self.getValueDifference(self.total, 'memory');
@@ -866,3 +895,8 @@ PhpDebugToolbar.prototype.refreshInfoWindow = function(key, title, html)
     
     return detail;
 };
+
+PhpDebugToolbar.getInstance = function()
+{
+    return PhpDebugToolbar.instance;
+}
