@@ -82,6 +82,8 @@ Edit `app/config/autoload.xml` and add:
 (You may need to add ` xmlns:xi="http://www.w3.org/2001/XInclude"`, if not
 available in your autoload, yet.)
 
+If you are running agavi > 1.0.3, you need to apply this patch: https://gist.github.com/1978414
+
 That's it.
 
 # Options
