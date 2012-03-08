@@ -24,6 +24,12 @@ PhpDebugToolbar::start(array(
     'ui_css_location' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/south-street/jquery-ui.css'
 ));
 
+if (!is_dir(dirname(__FILE__) . '/cache/'))
+{
+    mkdir(dirname(__FILE__) . '/cache/');
+    chmod(dirname(__FILE__) . '/cache/', 0777);
+}
+
 $section_id = PhpDebugToolbar::startSection('Calculation');
 
 PhpDebugToolbar::finishSection($section_id);
