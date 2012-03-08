@@ -5,7 +5,7 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.4-dev
+- Version: 1.4.0
 - Date: 2011/05/09
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
@@ -161,6 +161,8 @@ feedback from:
 
 # Changelog
 
+- 1.4.0 (2011/05/09)
+  - added support for multiple requests (can be filled with a call to #addRequest)
 - 1.3.0 (2011/01/04)
   - fixed issue with already initialized propel connection
   - fixed that sometimes loading the database query tab crashed
