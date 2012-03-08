@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.4.0
-- Date: 2011/05/09
+- Version: 1.5-dev
+- Date: Not released
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -148,6 +148,36 @@ Example:
 
 Enables the dark-hive theme.
 
+## Code Coverage
+
+If you want to see what code is executed, you may use the code coverage feature by the PhpDebugToolbar. It requires the `xdebug` php extension to be installed.
+
+Activat the CodeCoverageToolbarExtension by adding it to the `extensions` array as soon as you `PhpDebugToolbar::start` the toolbar.
+
+    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/CodeCoverageToolbarExtension.class.php';
+    PhpDebugToolbar::start(array(
+        'extensions' => array(
+            'CodeCoverageToolbarExtension'
+        ),
+        'code_coverage' => array(
+            'password' => 'mymagicpassword',
+            'filename' => dirname(__FILE__) . '/../cache/code_coverage.txt',
+            'include' => array(
+                dirname(dirname(__FILE__)) . '/lib/',
+                dirname(dirname(__FILE__)) . '/models/',
+                dirname(dirname(__FILE__)) . '/modules/' 
+            ),
+            'exclude' => array(
+                dirname(dirname(__FILE__)) . '/lib/orm/',
+            )
+        ), 
+
+This example will only start the code coverage if the password `mymagicpassword´ was given. The folders `lib`, `models`, `modules` will be added to code coverage, but `lib/orm` is excluded.
+
+This feature works by checking if the file at `$options['code_coverage']['filename']` exists. Thus it's created when you press the 'Start' button for the code coverage. It will be removed as soon as you press the 'Stop' button. While the code coverage is running, you may see the contents of the current code coverage session by pressing the 'Report' button.
+
+This feature makes the page approx. 10 times slower and collects a lot of data, so you should only use that feature for testing and not on production nor while normal development.
+
 # Contributors
 
 The PhpDebugToolbar (formerly known as Qos-Filter) was created by and with
@@ -161,6 +191,8 @@ feedback from:
 
 # Changelog
 
+- 1.5-dev
+  - code coverage extensions
 - 1.4.0 (2011/05/09)
   - added support for multiple requests (can be filled with a call to #addRequest)
 - 1.3.0 (2011/01/04)
