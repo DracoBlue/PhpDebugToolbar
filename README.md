@@ -152,7 +152,7 @@ Enables the dark-hive theme.
 
 If you want to see what code is executed, you may use the code coverage feature by the PhpDebugToolbar. It requires the `xdebug` php extension to be installed.
 
-Activat the CodeCoverageToolbarExtension by adding it to the `extensions` array as soon as you `PhpDebugToolbar::start` the toolbar.
+Activate the CodeCoverageToolbarExtension by adding it to the `extensions` array as soon as you `PhpDebugToolbar::start` the toolbar.
 
     require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/CodeCoverageToolbarExtension.class.php';
     PhpDebugToolbar::start(array(
@@ -193,6 +193,7 @@ feedback from:
 
 - 1.5-dev
   - code coverage extensions
+  - added tests folder with simple code coverage test
 - 1.4.0 (2011/05/09)
   - added support for multiple requests (can be filled with a call to #addRequest)
 - 1.3.0 (2011/01/04)
