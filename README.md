@@ -178,6 +178,19 @@ This feature works by checking if the file at `$options['code_coverage']['filena
 
 This feature makes the page approx. 10 times slower and collects a lot of data, so you should only use that feature for testing and not on production nor while normal development.
 
+## Support for old `mysql_query`-method
+
+If you have an old project with lots of `mysql_query` calls, you can use PhpDebugToolbar + `apd` extension (from <http://dracoblue.net/dev/installing-php-apd-on-php-5310/203/>) to track the resource usage of your `mysql_query` calls.
+
+Just add this before you do a call against `mysql_query` and it should work:
+
+    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/ApdMysqlDatabaseToolbarExtension.class.php';
+    PhpDebugToolbar::start(array(
+        'extensions' => array(
+            'ApdMysqlDatabaseToolbarExtension'
+        )
+    );
+
 # Contributors
 
 The PhpDebugToolbar (formerly known as Qos-Filter) was created by and with
@@ -194,6 +207,7 @@ feedback from:
 - 1.5-dev
   - code coverage extensions
   - added tests folder with simple code coverage test
+  - added support for tracking mysql_query-method (if apd-extension is installed!)
 - 1.4.0 (2011/05/09)
   - added support for multiple requests (can be filled with a call to #addRequest)
 - 1.3.0 (2011/01/04)
