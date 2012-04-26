@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.5-dev
-- Date: Not released
+- Version: 1.5.0
+- Date: 2012/04/26
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -25,13 +25,14 @@ Current features contain:
 * shows whether an action was simple or not
 * theming can be done by using jquery ui css framework
 * remembers the position of the popups
+* shows code coverage information over multiple requests
+* can handle mysql_query-calls (if apd-extension is enabled)
 
 # TODO
 
 * add information about fragement cache
 * highlight slots on mouseover
 * expand/collapse sections
-* add ajax request support
 
 # Installation
 
@@ -204,7 +205,7 @@ feedback from:
 
 # Changelog
 
-- 1.5-dev
+- 1.5.0 (2012/04/26)
   - code coverage extensions
   - added tests folder with simple code coverage test
   - added support for tracking mysql_query-method (if apd-extension is installed!)
