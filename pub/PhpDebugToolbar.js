@@ -8,13 +8,13 @@
 PhpDebugToolbar = function(container, options)
 {
     var self = this;
-    
     PhpDebugToolbar.instance = this;
 
     this.requests = [];
 
     this.ui_css_location = options.ui_css_location;
     this.cookie_name = options.cookie;
+    this.code_coverage = options.code_coverage || null;
     
     this.requests.push({"sections": options.sections});
     
@@ -254,7 +254,51 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
     this.navigation_nodes = {};
 
     var ul = document.createElement('ul');
-
+    
+    /*
+     * Code Coverage Node
+     */
+    if (this.code_coverage)
+    {
+        var createCodeCoverageLink = function(action_name, title)
+        {
+            var a = document.createElement('a');
+            a.href = document.location.toString();
+            a.href = a.href + (a.href.indexOf('?') > 0 ? '&' : '?') + 'PhpDebugToolbarCodeCoverage_Action=' + encodeURIComponent(action_name) + '&PhpDebugToolbarCodeCoverage_Password=' + encodeURIComponent(self.code_coverage.password);
+            a.innerHTML = title;
+            
+            return a;
+        };
+        
+        this.code_coverage_enabled = self.code_coverage.enabled === true ? true : false;
+        this.addNavigationNode('code_coverage_button', {
+            'title': 'Code Coverage is disabled! Click to enable!',
+            'html': ''
+        });
+        
+        ul.appendChild(this.navigation_nodes['code_coverage_button']);
+        
+        if (this.code_coverage_enabled)
+        {
+            this.navigation_nodes['code_coverage_button'].appendChild(createCodeCoverageLink('stop', 'Stop Code-Coverage'));
+            this.addClass(this.navigation_nodes['code_coverage_button'], 'ui-state-active');
+            
+            this.addNavigationNode('code_coverage_report', {
+                'title': 'Show code coverage report',
+                'html': '',
+            });
+            
+            this.navigation_nodes['code_coverage_report'].appendChild(createCodeCoverageLink('report', 'Cov-Report'));
+            ul.appendChild(this.navigation_nodes['code_coverage_report']);
+        }
+        else
+        {
+            this.navigation_nodes['code_coverage_button'].appendChild(createCodeCoverageLink('start', 'Code-Coverage'));
+        }
+        
+        
+    }
+    
     /*
      * Database Node
      */

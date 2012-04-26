@@ -240,10 +240,12 @@ abstract class PhpDebugToolbar
         }
 
         $content[] = 'new PhpDebugToolbar(document.getElementById("php_debug_toolbar"), ';
+        
         $content[] =    json_encode(array(
             'sections' => self::getSections(),
             'ui_css_location' => self::$options['ui_css_location'],
-            'cookie' => self::$options['cookie']
+            'cookie' => self::$options['cookie'],
+            'code_coverage' => isset(self::$options['code_coverage']) ? self::$options['code_coverage'] : null
         )). ');';
         $content[] = '// -->';
         $content[] = '</script>';

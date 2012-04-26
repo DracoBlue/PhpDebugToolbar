@@ -10,6 +10,8 @@ class CodeCoverageToolbarExtension
         if (!$this->started)
         {
             $this->started = true;
+            
+            PhpDebugToolbar::$options['code_coverage']['enabled'] = file_exists(PhpDebugToolbar::$options['code_coverage']['filename']);
             self::$options = PhpDebugToolbar::$options['code_coverage'];
 
             if (isset($_GET['PhpDebugToolbarCodeCoverage_Action']))
@@ -32,12 +34,12 @@ class CodeCoverageToolbarExtension
                 if ($action === 'start')
                 {
                     file_put_contents($this->getFilename(), '');
-                    echo "true";
+                    echo "Enabled Code-Coverage! Please refresh the previous page!";
                 }
                 elseif ($action === 'stop')
                 {
                     unlink($this->getFilename());
-                    echo "true";
+                    echo "Disabled Code-Coverage! Please refresh the previous page!";
                 }
                 elseif ($action === 'report_json')
                 {
