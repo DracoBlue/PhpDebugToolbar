@@ -53,15 +53,17 @@ app folder). The folder looks like this then:
 Now initialize the PhpDebugToolbar in your index.php file. Therefor edit
 `pub/index.php` and add (at the very beginning):
 
-    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/PhpDebugToolbar.class.php';
-    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/DoctrineDatabaseToolbarExtension.class.php';
-    PhpDebugToolbar::start(array(
-        'extensions' => array(
-            'DoctrineDatabaseToolbarExtension'
-        ),
-        'js_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.js',
-        'css_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.css'
-    ));
+```php
+require dirname(__FILE__) . '/../libs/PhpDebugToolbar/PhpDebugToolbar.class.php';
+require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/DoctrineDatabaseToolbarExtension.class.php';
+PhpDebugToolbar::start(array(
+    'extensions' => array(
+        'DoctrineDatabaseToolbarExtension'
+    ),
+    'js_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.js',
+    'css_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.css'
+));
+```
 
 This example enables also the DoctrineDatabase Extension.
 
@@ -70,17 +72,19 @@ This example enables also the DoctrineDatabase Extension.
 To work great with all of agavi's features, you need to adjust some files.
 
 Edit `app/config/factories.xml` and add:
-
-    <ae:configuration environment="development.*">
-        <execution_filter class="PhpDebugToolbarAgaviExecutionFilter" />
-    </ae:configuration>
+```xml
+<ae:configuration environment="development.*">
+    <execution_filter class="PhpDebugToolbarAgaviExecutionFilter" />
+</ae:configuration>
+```
 
 Edit `app/config/autoload.xml` and add:
+```xml
+<xi:include href="%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/autoload.xml" xpointer="xmlns(ae=http://agavi.org/agavi/config/global/envelope/1.0) xpointer(/ae:configurations/*)">
+</xi:include>
+```
 
-    <xi:include href="%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/autoload.xml" xpointer="xmlns(ae=http://agavi.org/agavi/config/global/envelope/1.0) xpointer(/ae:configurations/*)">
-    </xi:include>
-
-(You may need to add ` xmlns:xi="http://www.w3.org/2001/XInclude"`, if not
+(You may need to add `xmlns:xi="http://www.w3.org/2001/XInclude"`, if not
 available in your autoload, yet.)
 
 If you are running agavi > 1.0.3, you need to apply this patch: https://gist.github.com/1978414
@@ -100,7 +104,9 @@ Add the possible PhpDebugToolbar extensions by name.
 
 Example (enable Doctrine Database):
 
-    PhpDebugToolbar::start(array('extensions' => 'DoctrineDatabaseToolbarExtension'))
+```php
+PhpDebugToolbar::start(array('extensions' => 'DoctrineDatabaseToolbarExtension'))
+```
 
 ## Option: js_location + css_location
 
@@ -109,11 +115,12 @@ parts of the Toolbar with embedded javascript, you may want to load the files
 from external resources (for performance reasons!).
 
 Just configure:
-
-    PhpDebugToolbar::start(array(
-        'js_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.js',
-        'css_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.css'
-    ));
+```php
+PhpDebugToolbar::start(array(
+    'js_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.js',
+    'css_location' => '../libs/PhpDebugToolbar/pub/PhpDebugToolbar.css'
+));
+```
 
 and PhpDebugToolbar will include <script-tags instead.
 
@@ -122,19 +129,23 @@ and PhpDebugToolbar will include <script-tags instead.
 By default PhpDebugToolbar also logs deprecated and strict errors. If you don't
 want to do so, disable this feature.
 
-    PhpDebugToolbar::start(array(
-        'log_strict_errors' => false,
-        'log_deprecated_errors' => false
-    ));
+```php
+PhpDebugToolbar::start(array(
+    'log_strict_errors' => false,
+    'log_deprecated_errors' => false
+));
+```
 
 ## Option: cookie
 
 If you want to choose a custom cookie name to store the sessions (default is
 php_debug_toolbar), specify the cookie option.
 
-    PhpDebugToolbar::start(array(
-        'cookie' => 'php_debug_toolbar'
-    ));
+```php
+PhpDebugToolbar::start(array(
+    'cookie' => 'php_debug_toolbar'
+));
+```
 
 ## Option: ui_css_location
 
@@ -143,9 +154,11 @@ specify the theme url here.
 
 Example:
 
-    PhpDebugToolbar::start(array(
-        'ui_css_location' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/dark-hive/jquery-ui.css'
-    ));
+```php
+PhpDebugToolbar::start(array(
+    'ui_css_location' => 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/dark-hive/jquery-ui.css'
+));
+```
 
 Enables the dark-hive theme.
 
@@ -155,24 +168,25 @@ If you want to see what code is executed, you may use the code coverage feature 
 
 Activate the CodeCoverageToolbarExtension by adding it to the `extensions` array as soon as you `PhpDebugToolbar::start` the toolbar.
 
-    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/CodeCoverageToolbarExtension.class.php';
-    PhpDebugToolbar::start(array(
-        'extensions' => array(
-            'CodeCoverageToolbarExtension'
+```php
+require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/CodeCoverageToolbarExtension.class.php';
+PhpDebugToolbar::start(array(
+    'extensions' => array(
+        'CodeCoverageToolbarExtension'
+    ),
+    'code_coverage' => array(
+        'password' => 'mymagicpassword',
+        'filename' => dirname(__FILE__) . '/../cache/code_coverage.txt',
+        'include' => array(
+            dirname(dirname(__FILE__)) . '/lib/',
+            dirname(dirname(__FILE__)) . '/models/',
+            dirname(dirname(__FILE__)) . '/modules/' 
         ),
-        'code_coverage' => array(
-            'password' => 'mymagicpassword',
-            'filename' => dirname(__FILE__) . '/../cache/code_coverage.txt',
-            'include' => array(
-                dirname(dirname(__FILE__)) . '/lib/',
-                dirname(dirname(__FILE__)) . '/models/',
-                dirname(dirname(__FILE__)) . '/modules/' 
-            ),
-            'exclude' => array(
-                dirname(dirname(__FILE__)) . '/lib/orm/',
-            )
-        ), 
-
+        'exclude' => array(
+            dirname(dirname(__FILE__)) . '/lib/orm/',
+        )
+    ), 
+```
 This example will only start the code coverage if the password `mymagicpassword´ was given. The folders `lib`, `models`, `modules` will be added to code coverage, but `lib/orm` is excluded.
 
 This feature works by checking if the file at `$options['code_coverage']['filename']` exists. Thus it's created when you press the 'Start' button for the code coverage. It will be removed as soon as you press the 'Stop' button. While the code coverage is running, you may see the contents of the current code coverage session by pressing the 'Report' button.
@@ -184,13 +198,14 @@ This feature makes the page approx. 10 times slower and collects a lot of data, 
 If you have an old project with lots of `mysql_query` calls, you can use PhpDebugToolbar + `apd` extension (from <http://dracoblue.net/dev/installing-php-apd-on-php-5310/203/>) to track the resource usage of your `mysql_query` calls.
 
 Just add this before you do a call against `mysql_query` and it should work:
-
-    require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/ApdMysqlDatabaseToolbarExtension.class.php';
-    PhpDebugToolbar::start(array(
-        'extensions' => array(
-            'ApdMysqlDatabaseToolbarExtension'
-        )
-    );
+```php
+require dirname(__FILE__) . '/../libs/PhpDebugToolbar/extensions/ApdMysqlDatabaseToolbarExtension.class.php';
+PhpDebugToolbar::start(array(
+    'extensions' => array(
+        'ApdMysqlDatabaseToolbarExtension'
+    )
+);
+```
 
 # Contributors
 
