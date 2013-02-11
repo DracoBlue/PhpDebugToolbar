@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.6-dev
-- Date: not/yet/released
+- Version: 1.6.0
+- Date: 2013/02/11
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -205,7 +205,7 @@ feedback from:
 
 # Changelog
 
-- 1.6-dev
+- 1.6.0 (2013/02/11)
   - allow multiple database connections and summarize the values
   - added agavi pdo database extension (requires `PhpDebugToolbarPdoDatabaseConnection` in `databases.xml`)
 - 1.5.0 (2012/04/26)
