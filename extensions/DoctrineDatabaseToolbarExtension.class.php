@@ -4,18 +4,17 @@ class DoctrineDatabaseToolbarExtension {
     static $count = 0;
     static $time = 0;
 
+	static $sections_start_time = array();
+	static $sections_start_count = array();
+
     public function startSection($section_id)
     {
-        $db_count = self::$count;
-        $db_time = self::$time;
-        PhpDebugToolbar::setValue('start_database_count', $db_count);
-        PhpDebugToolbar::setValue('start_database_time', $db_time);
+    	self::$sections_start_time[$section_id] = self::$time;
+    	self::$sections_start_count[$section_id] = self::$count;
     }
-
+    
     public function finishSection($section_id)
     {
-        $db_count = 0;
-        $db_time = 0;
         if (PhpDebugToolbar::isBootstrap())
         {
             $db_manager = AgaviContext::getInstance()->getDatabaseManager();
@@ -29,13 +28,9 @@ class DoctrineDatabaseToolbarExtension {
                 }    
             }  
         }
-        else
-        {
-            $db_count = self::$count;
-            $db_time = self::$time;
-        }
-        PhpDebugToolbar::setValue('end_database_count', $db_count);
-        PhpDebugToolbar::setValue('end_database_time', $db_time);
+
+    	PhpDebugToolbar::incrementValue('database_count', self::$count - self::$sections_start_count[$section_id]);
+    	PhpDebugToolbar::incrementValue('database_time', self::$time - self::$sections_start_time[$section_id]);
     }
 
 }
