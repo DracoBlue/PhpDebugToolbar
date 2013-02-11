@@ -8,6 +8,8 @@
         <!-- PhpDebugToolbar -->
         <autoload name="PhpDebugToolbarLoggerAppender">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarLoggerAppender.class.php</autoload>
         <autoload name="PhpDebugToolbarAgaviExecutionFilter">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarAgaviExecutionFilter.class.php</autoload>
+        <autoload name="PhpDebugToolbarAgaviPdoDatabase">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarAgaviPdoDatabase.class.php</autoload>
+        <autoload name="PhpDebugToolbarPdoConnection">%core.app_dir%/../libs/PhpDebugToolbar/lib/agavi/PhpDebugToolbarPdoConnection.class.php</autoload>
 
     </ae:configuration>
     

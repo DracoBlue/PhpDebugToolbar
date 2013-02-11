@@ -76,12 +76,9 @@ PhpDebugToolbar.prototype.showRequest = function(request_id)
 
     this.total = {};
 
-    for ( var key in sections[0])
+    for (var key in sections[0])
     {
-        if (key.match(/^start_/))
-        {
-            this.total[key] = sections[0][key];
-        }
+        this.total[key] = sections[0][key];
     }
         
     var last_section_id_without_parent = -1;
@@ -90,21 +87,13 @@ PhpDebugToolbar.prototype.showRequest = function(request_id)
     {
         if (!sections[i].parent)
         {
-            last_section_id_without_parent = i;
+        	for (var sub_key in sections[i])
+        	{
+        		this.total[sub_key] = (this.total[sub_key] || 0) + (sections[i][sub_key] || 0);
+        	}
         }
     }
 
-    if (last_section_id_without_parent > -1)
-    {
-        for ( var key in sections[last_section_id_without_parent])
-        {
-            if (key.match(/^end_/))
-            {
-                this.total[key] = sections[last_section_id_without_parent][key];
-            }
-        }
-    }
-    
     if (this.visible)
     {
         this.show();
@@ -176,7 +165,7 @@ PhpDebugToolbar.prototype.encodeXml = (function()
 
 PhpDebugToolbar.prototype.getValueDifference = function(element, key)
 {
-    return element['end_' + key] - element['start_' + key];
+    return (element[key] || 0) + ((element['end_' + key] || 0) - (element['start_' + key] || 0));
 };
 
 PhpDebugToolbar.prototype.getOption = function(key)
@@ -302,8 +291,8 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
     /*
      * Database Node
      */
-    var queries_count = self.getValueDifference(self.total, 'database_count');
-    var queries_time = self.getValueDifference(self.total, 'database_time');
+    var queries_count = self.total.database_count || 0;
+    var queries_time = self.total.database_time || 0;
     this.addNavigationNode('database', {
         'title': 'Amount of databse querires and the time taken to process them',
         'html': 'DB: ' + queries_count + ' in ' + Math.floor(queries_time * 1000) + 'ms',
@@ -606,10 +595,10 @@ PhpDebugToolbar.prototype.getHtmlForFlowExecution = function(execution, indentio
         content.push('<span class="location">' + encodeXml(execution.location) + '</span>');
         content.push('</td>');
         content.push('<td class="no-wrap ui-widget-content">');
-        if (execution.end_database_count != execution.start_database_count)
+        if (execution.database_count)
         {
-            content.push(encodeXml(Math.floor(this.getValueDifference(execution, 'database_count')) + ' in '));
-            content.push(encodeXml(Math.floor(this.getValueDifference(execution, 'database_time') * 1000)) + 'ms');
+            content.push(encodeXml(Math.floor(execution.database_count) + ' in '));
+            content.push(encodeXml(Math.floor(execution.database_time * 1000)) + 'ms');
         }
         content.push('</td>');
         content.push('<td class="no-wrap ui-widget-content">');

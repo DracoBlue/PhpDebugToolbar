@@ -5,8 +5,8 @@ and maintaining agavi applications. The little 100% javascript toolbar displays
 profiling information, which is necessary to find bottlenecks in the
 application.
 
-- Version: 1.5.0
-- Date: 2012/04/26
+- Version: 1.6-dev
+- Date: not/yet/released
 - Screenshot: <http://twitpic.com/2zgig8>
 - Official site: <http://dracoblue.net>
 
@@ -205,6 +205,8 @@ feedback from:
 
 # Changelog
 
+- 1.6-dev
+  - allow multiple database connections and summarize the values
 - 1.5.0 (2012/04/26)
   - code coverage extensions
   - added tests folder with simple code coverage test

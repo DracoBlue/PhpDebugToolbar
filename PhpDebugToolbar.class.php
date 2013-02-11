@@ -99,8 +99,8 @@ abstract class PhpDebugToolbar
             'id' => $section_id,
             'caption' => $caption,
             'parent' => self::$current_section_id,
-            'start_time' => microtime(true),
-            'start_memory' => memory_get_usage()
+            'time' => microtime(true),
+            'memory' => memory_get_usage()
         );
 
         self::$section_id_stack[] = $section_id;
@@ -125,8 +125,8 @@ abstract class PhpDebugToolbar
             throw new Exception('Cannot close section #' . $section_id . ', because #' . self::$current_section_id . ' is still open!');
         }
 
-        self::$sections[$section_id]['end_time'] = microtime(true);
-        self::$sections[$section_id]['end_memory'] = memory_get_usage();
+        self::$sections[$section_id]['time'] = microtime(true) - self::$sections[$section_id]['time'];
+        self::$sections[$section_id]['memory'] = memory_get_usage() - self::$sections[$section_id]['memory'];
 
         foreach (self::$extensions as $extension)
         {
@@ -155,9 +155,19 @@ abstract class PhpDebugToolbar
         self::$sections[self::$current_section_id][$key] = $value;
     }
 
+    static function setExtensionValue($uuid, $key, $value)
+    {
+        self::$sections[self::$current_section_id][$key . '@' . $uuid] = $value;
+    }
+
     static function incrementValue($key, $value = 1)
     {
-        self::$sections[self::$current_section_id][$key] = @self::$sections[self::$current_section_id][$key] + $value;
+    	if (!isset(self::$sections[self::$current_section_id][$key]))
+		{
+			self::$sections[self::$current_section_id][$key] = 0;
+		}
+		
+        self::$sections[self::$current_section_id][$key] = self::$sections[self::$current_section_id][$key] + $value;
     }
 
     static function appendValue($key, $value)
