@@ -207,6 +207,7 @@ feedback from:
 
 - 1.6-dev
   - allow multiple database connections and summarize the values
+  - added agavi pdo database extension (requires `PhpDebugToolbarPdoDatabaseConnection` in `databases.xml`)
 - 1.5.0 (2012/04/26)
   - code coverage extensions
   - added tests folder with simple code coverage test
