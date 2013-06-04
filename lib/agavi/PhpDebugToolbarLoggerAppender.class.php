@@ -8,13 +8,13 @@
  */
 class PhpDebugToolbarLoggerAppender extends AgaviLoggerAppender
 {
-	public function write($message)
-	{
-		if(($layout = $this->getLayout()) === null) {
-			throw new AgaviLoggingException('No Layout set');
-		}
+    public function write(AgaviLoggerMessage $message)
+    {
+        if(($layout = $this->getLayout()) === null) {
+            throw new AgaviLoggingException('No Layout set');
+        }
 
-		$str = $this->getLayout()->format($message);
+        $str = $this->getLayout()->format($message);
         $bt = debug_backtrace();
         if (AgaviLogger::ERROR >= $message->getLevel()) {
             PhpDebugToolbar::log('error', $str, $bt[2]);
@@ -23,9 +23,9 @@ class PhpDebugToolbarLoggerAppender extends AgaviLoggerAppender
         } else {
             PhpDebugToolbar::log('debug', $str, $bt[2]);
         }
-	}
+    }
 
-	public function shutdown()
+    public function shutdown()
     {
     }
 }
