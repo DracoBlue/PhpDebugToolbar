@@ -293,9 +293,17 @@ PhpDebugToolbar.prototype.initializeNavigation = function()
      */
     var queries_count = self.total.database_count || 0;
     var queries_time = self.total.database_time || 0;
+    var db_text = 'DB: ';
+
+    if (Number.isNaN(queries_count) || queries_count === 0) {
+        db_text += '-';
+    } else  {
+        db_text += queries_count + ' in ' + Math.floor(queries_time * 1000) + 'ms';
+    }
+
     this.addNavigationNode('database', {
         'title': 'Amount of databse querires and the time taken to process them',
-        'html': 'DB: ' + queries_count + ' in ' + Math.floor(queries_time * 1000) + 'ms',
+        'html': db_text,
         'onClick': function()
         {
             self.toggleDatabaseInfo(true);
